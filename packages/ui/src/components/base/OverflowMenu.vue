@@ -24,24 +24,14 @@
 					:hover-filled="option.hoverFilled"
 					:hover-filled-only="option.hoverFilledOnly"
 					transparent
-					:v-close-popper="!option.remainOnClick"
-					:action="
-						option.action
-							? (event: MouseEvent) => {
-									option.action?.(event)
-									if (!option.remainOnClick) {
-										close()
-									}
-								}
-							: undefined
-					"
+					:action="option.action"
 					:link="option.link ? option.link : undefined"
 					:download="option.download ? option.download : undefined"
 					:external="option.external ? option.external : false"
 					:disabled="option.disabled"
 					@click="
 						() => {
-							if (option.link && !option.remainOnClick) {
+							if (!option.remainOnClick) {
 								close()
 							}
 						}

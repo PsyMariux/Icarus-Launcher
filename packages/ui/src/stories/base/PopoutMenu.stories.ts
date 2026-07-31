@@ -88,6 +88,20 @@ export const DifferentPlacements: StoryObj = {
 						</PopoutMenu>
 					</ButtonStyled>
 				</div>
+				<div class="flex flex-col items-center gap-2">
+					<span class="text-sm text-secondary">right-end</span>
+					<ButtonStyled circular type="transparent">
+						<PopoutMenu placement="right-end">
+							<SettingsIcon class="h-5 w-5" />
+							<template #menu>
+								<div class="flex flex-col gap-1 p-1">
+									<Button transparent>Option 1</Button>
+									<Button transparent>Option 2</Button>
+								</div>
+							</template>
+						</PopoutMenu>
+					</ButtonStyled>
+				</div>
 			</div>
 		`,
 	}),

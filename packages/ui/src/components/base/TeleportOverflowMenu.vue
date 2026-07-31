@@ -14,82 +14,73 @@
 			<slot></slot>
 		</button>
 		<Teleport to="#teleports">
-			<Transition
-				enter-active-class="transition duration-125 ease-out"
-				enter-from-class="transform scale-75 opacity-0"
-				enter-to-class="transform scale-100 opacity-100"
-				leave-active-class="transition duration-125 ease-in"
-				leave-from-class="transform scale-100 opacity-100"
-				leave-to-class="transform scale-75 opacity-0"
+			<div
+				v-if="isOpen"
+				ref="menuRef"
+				data-pyro-telepopover-root
+				class="fixed isolate z-[9999] flex w-fit flex-col gap-2 overflow-hidden rounded-2xl border-[1px] border-solid border-surface-5 bg-bg-raised p-2 shadow-lg"
+				:style="menuStyle"
+				role="menu"
+				tabindex="-1"
+				@mousedown.stop
+				@mouseleave="handleMouseLeave"
 			>
-				<div
-					v-if="isOpen"
-					ref="menuRef"
-					data-pyro-telepopover-root
-					class="fixed isolate z-[9999] flex w-fit flex-col gap-2 overflow-hidden rounded-2xl border-[1px] border-solid border-surface-5 bg-bg-raised p-2 shadow-lg"
-					:style="menuStyle"
-					role="menu"
-					tabindex="-1"
-					@mousedown.stop
-					@mouseleave="handleMouseLeave"
+				<template
+					v-for="(option, index) in filteredOptions"
+					:key="isDivider(option) ? `divider-${index}` : option.id"
 				>
-					<template
-						v-for="(option, index) in filteredOptions"
-						:key="isDivider(option) ? `divider-${index}` : option.id"
-					>
-						<div v-if="isDivider(option)" class="h-px w-full bg-surface-5"></div>
-						<ButtonStyled v-else type="transparent" role="menuitem" :color="option.color">
-							<button
-								v-if="typeof option.action === 'function'"
-								:ref="
-									(el) => {
-										if (el) menuItemsRef[index] = el as HTMLElement
-									}
-								"
-								v-tooltip="option.tooltip"
-								:disabled="option.disabled"
-								class="w-full !justify-start !whitespace-nowrap focus-visible:!outline-none"
-								:aria-selected="index === selectedIndex"
-								:style="index === selectedIndex ? { background: 'var(--color-button-bg)' } : {}"
-								@click="handleItemClick(option, index)"
-								@focus="selectedIndex = index"
-								@mouseover="handleMouseOver(index)"
-							>
-								<slot :name="option.id">
-									<component :is="option.icon" v-if="option.icon" class="size-5" />
-									{{ option.id }}
-								</slot>
-							</button>
-							<AutoLink
-								v-else-if="typeof option.action === 'string'"
-								:ref="
-									(el) => {
-										if (el) menuItemsRef[index] = el as HTMLElement
-									}
-								"
-								:to="option.action"
-								class="w-full !justify-start !whitespace-nowrap focus-visible:!outline-none"
-								:aria-selected="index === selectedIndex"
-								:style="index === selectedIndex ? { background: 'var(--color-button-bg)' } : {}"
-								@click="handleItemClick(option, index)"
-								@focus="selectedIndex = index"
-								@mouseover="handleMouseOver(index)"
-							>
-								<slot :name="option.id">
-									<component :is="option.icon" v-if="option.icon" class="size-5" />
-									{{ option.id }}
-								</slot>
-							</AutoLink>
-							<span v-else>
-								<slot :name="option.id">
-									<component :is="option.icon" v-if="option.icon" class="size-5" />
-									{{ option.id }}
-								</slot>
-							</span>
-						</ButtonStyled>
-					</template>
-				</div>
-			</Transition>
+					<div v-if="isDivider(option)" class="h-px w-full bg-surface-5"></div>
+					<ButtonStyled v-else type="transparent" role="menuitem" :color="option.color">
+						<button
+							v-if="typeof option.action === 'function'"
+							:ref="
+								(el) => {
+									if (el) menuItemsRef[index] = el as HTMLElement
+								}
+							"
+							v-tooltip="option.tooltip"
+							:disabled="option.disabled"
+							class="w-full !justify-start !whitespace-nowrap focus-visible:!outline-none"
+							:aria-selected="index === selectedIndex"
+							:style="index === selectedIndex ? { background: 'var(--color-button-bg)' } : {}"
+							@click="handleItemClick(option, index)"
+							@focus="selectedIndex = index"
+							@mouseover="handleMouseOver(index)"
+						>
+							<slot :name="option.id">
+								<component :is="option.icon" v-if="option.icon" class="size-5" />
+								{{ option.id }}
+							</slot>
+						</button>
+						<AutoLink
+							v-else-if="typeof option.action === 'string'"
+							:ref="
+								(el) => {
+									if (el) menuItemsRef[index] = el as HTMLElement
+								}
+							"
+							:to="option.action"
+							class="w-full !justify-start !whitespace-nowrap focus-visible:!outline-none"
+							:aria-selected="index === selectedIndex"
+							:style="index === selectedIndex ? { background: 'var(--color-button-bg)' } : {}"
+							@click="handleItemClick(option, index)"
+							@focus="selectedIndex = index"
+							@mouseover="handleMouseOver(index)"
+						>
+							<slot :name="option.id">
+								<component :is="option.icon" v-if="option.icon" class="size-5" />
+								{{ option.id }}
+							</slot>
+						</AutoLink>
+						<span v-else>
+							<slot :name="option.id">
+								<component :is="option.icon" v-if="option.icon" class="size-5" />
+								{{ option.id }}
+							</slot>
+						</span>
+					</ButtonStyled>
+				</template>
+			</div>
 		</Teleport>
 	</div>
 </template>
