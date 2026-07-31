@@ -77,7 +77,19 @@
 			"persistent": true,
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
 			"env": ["CARGO_*", "RUST_*", "RUSTFLAGS", "FORCE_COLOR", "NEXTEST_*"],
-			"passThroughEnv": ["DISPLAY", "WEBKIT_DISABLE_DMABUF_RENDERER", "JAVA_HOME"]
+			"passThroughEnv": [
+				"DBUS_SESSION_BUS_ADDRESS",
+				"DISPLAY",
+				"GDK_BACKEND",
+				"JAVA_HOME",
+				"WAYLAND_DISPLAY",
+				"WEBKIT_DISABLE_DMABUF_RENDERER",
+				"XDG_CURRENT_DESKTOP",
+				"XDG_DATA_DIRS",
+				"XDG_RUNTIME_DIR",
+				"XDG_SESSION_TYPE",
+				"__NV_DISABLE_EXPLICIT_SYNC"
+			]
 		},
 		"test": {
 			"env": [
@@ -106,4 +118,3 @@
 		}
 	}
 }
-

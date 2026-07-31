@@ -13,6 +13,9 @@ use pteron::prelude::*;
 mod api;
 mod error;
 
+#[cfg(target_os = "linux")]
+mod linux;
+
 #[cfg(target_os = "macos")]
 mod macos;
 
@@ -99,6 +102,12 @@ fn restart_app(app: tauri::AppHandle) {
 // if Tauri app is called with arguments, then those arguments will be treated as commands
 // ie: deep links or filepaths for .mrpacks
 fn main() {
+	#[cfg(target_os = "linux")]
+	if let Err(error) = linux::configure_webkit() {
+		eprintln!("Failed to configure WebKit for Wayland: {error}");
+		return;
+	}
+
     /*
         tracing is set basd on the environment variable RUST_LOG=xxx, depending on the amount of logs to show
             ERROR > WARN > INFO > DEBUG > TRACE

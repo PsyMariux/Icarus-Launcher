@@ -1,7 +1,9 @@
+use std::env;
 use std::ffi::OsString;
+#[cfg(target_os = "windows")]
+use std::fs;
 use std::path::PathBuf;
 use std::process::{Command, exit};
-use std::{env, fs};
 
 fn main() {
     println!("cargo::rerun-if-changed=.env");

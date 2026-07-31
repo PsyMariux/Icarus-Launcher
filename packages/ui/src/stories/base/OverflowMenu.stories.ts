@@ -63,7 +63,7 @@ export const WithDifferentPlacements: StoryObj = {
 					<span class="text-sm text-secondary">bottom-start</span>
 					<ButtonStyled circular type="transparent">
 						<OverflowMenu
-							direction="left"
+							placement="bottom-start"
 							:options="[
 								{ id: 'edit', action: () => {} },
 								{ id: 'delete', action: () => {}, color: 'danger' },
